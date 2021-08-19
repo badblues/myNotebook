@@ -2,11 +2,10 @@
 #include "shared.h"
 
 int main() {
-    notebook book1;
-    char name[30] = "FIRST BOOK";
+    char name[30] = "FIRST TARGET";
     FILE* notebook_ptr = fopen(notebooks_path, "a+b");
     FILE* notes_ptr = fopen(notes_path, "a+b");
-    //addNotebook(notebook_ptr, name);
     showTable(notebook_ptr, notes_ptr);
+    //addNote(notebook_ptr, notes_ptr, 0, name);
     return 0;
 }

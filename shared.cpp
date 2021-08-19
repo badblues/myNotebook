@@ -3,12 +3,11 @@
 using namespace std;
 
 int getNumberOfNotes(FILE* notebook_ptr) {
-    int num = -1;
+    int num = 0;
     if (notebook_ptr != nullptr) {
         notebook book;
         fseek(notebook_ptr, 0, SEEK_SET);
-        while (!feof(notebook_ptr)) {
-            fread(&book, sizeof(notebook), 1, notebook_ptr);
+        while ((!feof(notebook_ptr)) && (fread(&book, sizeof(notebook), 1, notebook_ptr) == 1)) {
             num += book.getNotesNumber();
         }
     }
@@ -24,9 +23,8 @@ int showTable(FILE* notebook_ptr, FILE* notes_ptr) {
         notebook book;
         fseek(notebook_ptr, 0, SEEK_SET);
         fseek(notes_ptr, 0, SEEK_SET);
-        while (!feof(notebook_ptr) || (fread(&book, sizeof(notebook), 1, notebook_ptr) != 1)) {
-            cout << book.getName() << endl;
-            cout << sizeof(notebook);
+        while (!feof(notebook_ptr) && (fread(&book, sizeof(notebook), 1, notebook_ptr) == 1)) {
+            cout << book.getName() << " " << book.getNotesNumber() << endl;
             for (int i = 0; i < book.getNotesNumber(); i++) {
                 fread(&record, sizeof(note), 1, notes_ptr);
                 cout << i << " " << record.getTarget()
@@ -45,7 +43,6 @@ int addNotebook(FILE* notebook_ptr, char* name) {
         fseek(notebook_ptr, 0 , SEEK_END);
         notebook book;
         book.setName(name);
-        cout << book.getName() << "|" << book.getNotesNumber();
         fwrite(&book, sizeof(notebook), 1, notebook_ptr);
     }
     return no_error;
@@ -65,6 +62,7 @@ int addNote(FILE* notebook_ptr, FILE* notes_ptr, int notebook_id, char* target) 
             indent += book.getNotesNumber();
             index++;
         }
+        fseek(notebook_ptr, index * sizeof(notebook), SEEK_SET);
         fread(&book, sizeof(notebook), 1, notebook_ptr);
         book.increaseNotesNumber();
         fseek(notebook_ptr, index * sizeof(notebook), SEEK_SET);
