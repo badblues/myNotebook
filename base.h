@@ -7,6 +7,8 @@
 #define notes_path "../data/notes.txt"
 #define notebooks_path "../data/notebooks.txt"
 
+//every function should set-up position in file first
+
 typedef class note note;
 typedef class notebook notebook;
 class notebook {
