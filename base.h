@@ -4,8 +4,8 @@
 #include <iostream>
 #include <cstring>
 
-#define notes_path "../data/notes"
-#define notebooks_path "../data/notebooks"
+#define notes_path "../data/notes.txt"
+#define notebooks_path "../data/notebooks.txt"
 
 typedef class note note;
 typedef class notebook notebook;
