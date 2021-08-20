@@ -2,6 +2,8 @@
 #define PROGRESS_BAR_SHARED_H
 
 int addNotebook(FILE* ptr, char* name);
-int showNotebooks(FILE* ptr);
+int addNote(FILE* notebooks_ptr, FILE* notes_ptr, char* target);
+int showTables(FILE* notebooks_ptr, FILE* notes_ptr);
+void testFunction(FILE* ptr);
 
 #endif //PROGRESS_BAR_SHARED_H
