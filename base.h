@@ -2,12 +2,18 @@
 #define UNTITLED_BASE_H
 
 #include <iostream>
+#include <fstream>
 #include <cstring>
 
-#define notes_path "../data/notes.txt"
-#define notebooks_path "../data/notebooks.txt"
+#define notes_path "../data/notes"
+#define notebooks_path "../data/notebooks"
 
 //every function should set-up position in file first
+
+//TODO deleting rec
+//TODO deleting notebook
+//TODO renaming things
+//TODO
 
 typedef class note note;
 typedef class notebook notebook;
@@ -30,6 +36,10 @@ class notebook {
 
     char* getName() {
         return this->name;
+    }
+
+    void decreaseNotesNumber() {
+        (this->notes_number)--;
     }
 
     void increaseNotesNumber() {
