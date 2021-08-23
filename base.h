@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <unistd.h>
 
 #define notes_path "../data/notes"
 #define notebooks_path "../data/notebooks"

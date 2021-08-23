@@ -2,6 +2,8 @@
 #include "shared.h"
 #include "io.h"
 
+using namespace std;
+
 void showNoteMenu() {
     std::cout << "===================\n"
                  "MENU\n  1 DELETE\n"
@@ -51,20 +53,19 @@ void notebookMenu(FILE* notebooks_ptr, FILE* notes_ptr, int selected_id) {
                 system("cls");
                 flag = false;
                 break;
-                case 1:
-                    system("cls");
-                    showNotebook(notebooks_ptr, notes_ptr, selected_id);
-                    note_id = getChoice(1, getNotesNumber(notebooks_ptr, selected_id)) - 1;
-                    noteMenu(notebooks_ptr, notes_ptr, selected_id, note_id);
-                    break;
-                    case 2:
-                        system("cls");
-                        std::cout << "ENTER TARGET:\n";
-                        std::cin.getline(str,30);
-                        std::cin.getline(str,30);
-                        std::cout << "got line: " << str << std::endl;
-                        addNote(notebooks_ptr, notes_ptr, selected_id, str);
-                        break;
+            case 1:
+                system("cls");
+                showNotebook(notebooks_ptr, notes_ptr, selected_id);
+                note_id = getChoice(1, getNotesNumber(notebooks_ptr, selected_id)) - 1;
+                noteMenu(notebooks_ptr, notes_ptr, selected_id, note_id);
+                break;
+            case 2:
+                system("cls");
+                std::cout << "ENTER TARGET:\n";
+                std::cin.getline(str,30);
+                std::cin.getline(str,30);
+                addNote(notebooks_ptr, notes_ptr, selected_id, str);
+                break;
         }
     }
 }
@@ -72,37 +73,50 @@ void notebookMenu(FILE* notebooks_ptr, FILE* notes_ptr, int selected_id) {
 void showMainMenu() {
     std::cout << "===================\n"
                  "MENU\n  1 SHOW NOTEBOOKS\n"
-                 "  2 SELECT NOTEBOOK\n  3 SHOW ALL\n  0 EXIT"
+                 "  2 ADD NOTEBOOK\n  3 SELECT NOTEBOOK\n  4 SHOW ALL\n"
+                 "  5 SHOW ALL NOTES(DEBUG)\n  0 EXIT"
                  "\n===================\n";
 }
 
 void mainMenu(FILE* notebooks_ptr, FILE* notes_ptr) {
     int choice;
     int selected_id;
+    char str[30];
     bool flag = true;
     while (flag) {
         showMainMenu();
-        choice = getChoice(0, 3);
+        choice = getChoice(0, 5);
         switch(choice) {
             case 0:
                 flag = false;
                 break;
-                case 1:
-                    system("cls");
-                    showNotebooks(notebooks_ptr);
-                    break;
-                    case 2:
-                        system("cls");
-                        showNotebooks(notebooks_ptr);
-                        selected_id = getChoice(1, getNotebooksNumber(notebooks_ptr) + 1) - 1;
-                        system("cls");
-                        showNotebook(notebooks_ptr, notes_ptr, selected_id);
-                        notebookMenu(notebooks_ptr, notes_ptr, selected_id);
-                        break;
-                        case 3:
-                            system("cls");
-                            showTables(notebooks_ptr, notes_ptr);
-                            break;
+            case 1:
+                system("cls");
+                showNotebooks(notebooks_ptr);
+                break;
+            case 2:
+                system("cls");
+                cout << "ENTER NAME\n";
+                                //TODO fix in normally
+                cin.getline(str, 30);
+                cin.getline(str, 30);
+                addNotebook(notebooks_ptr, str);
+                break;
+            case 3:
+                system("cls");
+                showNotebooks(notebooks_ptr);
+                selected_id = getChoice(1, getNotebooksNumber(notebooks_ptr) + 1) - 1;
+                system("cls");
+                notebookMenu(notebooks_ptr, notes_ptr, selected_id);
+                break;
+            case 4:
+                system("cls");
+                showTables(notebooks_ptr, notes_ptr);
+                break;
+            case 5:
+                system("cls");
+                SHOWALLNOTES(notes_ptr);
+                break;
         }
     }
 }
