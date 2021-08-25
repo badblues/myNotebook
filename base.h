@@ -7,10 +7,9 @@
 #include <unistd.h>
 #include <conio.h>
 
-#define notes_path "../data/notes"
-#define notebooks_path "../data/notebooks"
+#define notes_path "data/notes"
+#define notebooks_path "data/notebooks"
 
-//TODO fix input with chars
 //TODO change filepath in makefile before release
 
 typedef class note note;

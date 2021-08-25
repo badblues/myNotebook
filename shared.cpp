@@ -34,8 +34,7 @@ int showNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id)
         }
         fseek(notes_ptr, (indent + note_id) * sizeof(note), SEEK_SET);
         fread(&record, sizeof(note), 1, notes_ptr);
-        cout << "  " << note_id + 1 << ". " << record.getTarget()
-        << " " << record.getCompletion() << endl;
+        cout << record.getTarget() << " - " << record.getCompletion() << endl;
     }
     return no_error;
 }
@@ -63,7 +62,7 @@ int showNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
         for (int i = 0; i < book.getNotesNumber(); i++) {
             fread(&record, sizeof(note), 1, notes_ptr);
             cout << "  " << i + 1 << ". " << record.getTarget()
-            << " " << record.getCompletion() << endl;
+            << " - " << record.getCompletion() << endl;
         }
     }
     return no_error;
@@ -75,9 +74,11 @@ int showNotebooks(FILE* ptr) {
         no_error = 0;
     } else {
         notebook book;
+        int id = 1;
         fseek(ptr, 0, SEEK_SET);
         while((!feof(ptr)) && (fread(&book, sizeof(notebook), 1, ptr))) {
-            cout << book.getName() << " - " << book.getNotesNumber() << endl;
+            cout << id << ". " << book.getName() << "[" << book.getNotesNumber() << "]" << endl;
+            id++;
         }
     }
     return no_error;
@@ -93,11 +94,11 @@ int showTables(FILE* notebooks_ptr, FILE* notes_ptr) {
         fseek(notebooks_ptr, 0, SEEK_SET);
         fseek(notes_ptr, 0, SEEK_SET);
         while ((!feof(notebooks_ptr)) && (fread(&book, sizeof(notebook), 1, notebooks_ptr))) {
-            cout << book.getName() << " - " << book.getNotesNumber() << endl;
+            cout << book.getName() << "[" << book.getNotesNumber() << "]" << endl;
             for (int i = 0; i < book.getNotesNumber(); i++) {
                 fread(&record, sizeof(note), 1, notes_ptr);
                 cout << "  " << i + 1 << ". " << record.getTarget()
-                << " " << record.getCompletion() << endl;
+                << " - " << record.getCompletion() << endl;
             }
         }
     }
