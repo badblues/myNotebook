@@ -211,3 +211,101 @@ int deleteNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_i
     }
     return no_error;
 }
+
+int deleteNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
+    int no_error = 1;
+    if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
+        no_error = 0;
+    } else {
+        notebook book;
+        note record;
+        int index = 0;
+        int indent = 0;
+        int notes_to_delete;
+        fseek(notebooks_ptr, 0, SEEK_SET);
+        while ((!feof(notebooks_ptr)) && (fread(&book, sizeof(notebook), 1, notebooks_ptr))) {
+            if (index < notebook_id) {
+                indent += book.getNotesNumber();
+            } else if (index == notebook_id) {
+                notes_to_delete = book.getNotesNumber();
+            } else if (index > notebook_id) {
+                fseek(notebooks_ptr, -2 * (long)sizeof(notebook), SEEK_CUR);
+                fwrite(&book, sizeof(notebook), 1, notebooks_ptr);
+                fseek(notebooks_ptr, sizeof(notebook), SEEK_CUR);
+            }
+            index++;
+        }
+        ftruncate(fileno(notebooks_ptr), (getNotebooksNumber(notebooks_ptr) - 1) * sizeof(notebook));
+        fseek(notes_ptr, (indent + notes_to_delete) * sizeof(note), SEEK_SET);
+        while (!feof(notes_ptr) && (fread(&record, sizeof(note), 1, notes_ptr))) {
+            fseek(notes_ptr, -1 * (notes_to_delete + 1) * (long)sizeof(note), SEEK_CUR);
+            fwrite(&record, sizeof(note), 1, notes_ptr);
+            fseek(notes_ptr, notes_to_delete * sizeof(note), SEEK_CUR);
+        }
+        ftruncate(fileno(notes_ptr), (getAmountOfNotes(notes_ptr) - notes_to_delete) * sizeof(note));
+    }
+    return no_error;
+}
+
+int renameNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id, char* target) {
+    int no_error = 1;
+    if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
+        no_error = 0;
+    } else {
+        notebook book;
+        note record;
+        int index = 0;
+        int indent = 0;
+        fseek(notebooks_ptr, 0, SEEK_SET);
+        while (index < notebook_id) {
+            fread(&book, sizeof(notebook), 1, notebooks_ptr);
+            indent += book.getNotesNumber();
+            index++;
+        }
+        fseek(notes_ptr, (indent + note_id) * sizeof(note), SEEK_SET);
+        fread(&record, sizeof(note), 1, notes_ptr);
+        fseek(notes_ptr, -1 * (long)sizeof(note), SEEK_CUR);
+        record.setTarget(target);
+        fwrite(&record, sizeof(note), 1, notes_ptr);
+    }
+    return no_error;
+}
+
+int renameNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, char* name) {
+    int no_error = 1;
+    if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
+        no_error = 0;
+    } else {
+        notebook book;
+        fseek(notebooks_ptr, notebook_id, SEEK_SET);
+        fread(&book, sizeof(notebook), 1, notebooks_ptr);
+        fseek(notebooks_ptr, notebook_id, SEEK_SET);
+        book.setName(name);
+        fwrite(&book, sizeof(notebook), 1, notebooks_ptr);
+    }
+    return no_error;
+}
+
+int changeCompletition(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id, int comp) {
+    int no_error = 1;
+    if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
+        no_error = 0;
+    } else {
+        notebook book;
+        note record;
+        int index = 0;
+        int indent = 0;
+        fseek(notebooks_ptr, 0, SEEK_SET);
+        while (index < notebook_id) {
+            fread(&book, sizeof(notebook), 1, notebooks_ptr);
+            indent += book.getNotesNumber();
+            index++;
+        }
+        fseek(notes_ptr, (indent + note_id) * sizeof(note), SEEK_SET);
+        fread(&record, sizeof(note), 1, notes_ptr);
+        fseek(notes_ptr, -1 * (long)sizeof(note), SEEK_CUR);
+        record.setCompletion(comp);
+        fwrite(&record, sizeof(note), 1, notes_ptr);
+    }
+    return no_error;
+}

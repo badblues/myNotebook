@@ -5,16 +5,13 @@
 #include <fstream>
 #include <cstring>
 #include <unistd.h>
+#include <conio.h>
 
 #define notes_path "../data/notes"
 #define notebooks_path "../data/notebooks"
 
-//every function should set-up position in file first
-
-//TODO deleting rec
-//TODO deleting notebook
-//TODO renaming things
-//TODO
+//TODO fix input with chars
+//TODO change filepath in makefile before release
 
 typedef class note note;
 typedef class notebook notebook;
