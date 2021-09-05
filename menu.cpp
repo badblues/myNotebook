@@ -16,7 +16,7 @@ void noteMenu(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id
     char str[30];
     bool flag = true;
     while (flag) {
-        showNote(notebooks_ptr, notes_ptr, notebook_id, note_id);
+        showN(notebooks_ptr, notes_ptr, notebook_id, note_id);
         showNoteMenu();
         choice = getChoice(0, 4);
         switch(choice) {
@@ -25,7 +25,7 @@ void noteMenu(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id
                 flag = false;
                 break;
             case 1:
-                deleteNote(notebooks_ptr, notes_ptr, notebook_id, note_id);
+                deleteN(notebooks_ptr, notes_ptr, notebook_id, note_id);
                 system("cls");
                 flag = false;
                 break;
@@ -33,7 +33,7 @@ void noteMenu(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id
                 system("cls");
                 std::cout << "ENTER TARGET:\n";
                 std::cin.getline(str,30);
-                renameNote(notebooks_ptr, notes_ptr, notebook_id, note_id, str);
+                renameN(notebooks_ptr, notes_ptr, notebook_id, note_id, str);
                 system("cls");
                 break;
             case 3:
@@ -61,7 +61,7 @@ void notebookMenu(FILE* notebooks_ptr, FILE* notes_ptr, int selected_id) {
     char str[30];
     bool flag = true;
     while (flag) {
-        showNotebook(notebooks_ptr, notes_ptr, selected_id);
+        showN(notebooks_ptr, notes_ptr, selected_id);
         showNotebookMenu();
         choice = getChoice(0, 4);
         switch(choice) {
@@ -71,9 +71,9 @@ void notebookMenu(FILE* notebooks_ptr, FILE* notes_ptr, int selected_id) {
                 break;
             case 1:
                 system("cls");
-                showNotebook(notebooks_ptr, notes_ptr, selected_id);
+                showN(notebooks_ptr, notes_ptr, selected_id);
                 std::cout << "0 - BACK\n";
-                note_id = getChoice(0, getNotesNumber(notebooks_ptr, selected_id));
+                note_id = getChoice(0, getAmountOfN(notebooks_ptr, selected_id));
                 system("cls");
                 if (note_id != 0) {
                     noteMenu(notebooks_ptr, notes_ptr, selected_id, note_id - 1);
@@ -83,18 +83,18 @@ void notebookMenu(FILE* notebooks_ptr, FILE* notes_ptr, int selected_id) {
                 system("cls");
                 std::cout << "ENTER TARGET:\n";
                 std::cin.getline(str,30);
-                addNote(notebooks_ptr, notes_ptr, selected_id, str);
+                addN(notebooks_ptr, notes_ptr, selected_id, str);
                 break;
             case 3:
                 system("cls");
-                deleteNotebook(notebooks_ptr, notes_ptr, selected_id);
+                deleteN(notebooks_ptr, notes_ptr, selected_id);
                 flag = false;
                 break;
             case 4:
                 system("cls");
                 std::cout << "ENTER NAME:\n";
                 std::cin.getline(str,30);
-                renameNotebook(notebooks_ptr, notes_ptr, selected_id, str);
+                renameN(notebooks_ptr, notes_ptr, selected_id, str);
                 break;
         }
     }
@@ -122,19 +122,19 @@ void mainMenu(FILE* notebooks_ptr, FILE* notes_ptr) {
                 break;
             case 1:
                 system("cls");
-                showNotebooks(notebooks_ptr);
+                showN(notebooks_ptr);
                 break;
             case 2:
                 system("cls");
                 cout << "ENTER NAME\n";
                 cin.getline(str, 30);
-                addNotebook(notebooks_ptr, str);
+                addN(notebooks_ptr, str);
                 break;
             case 3:
                 system("cls");
-                showNotebooks(notebooks_ptr);
+                showN(notebooks_ptr);
                 std::cout << "0 - BACK\n";
-                selected_id = getChoice(0, getNotebooksNumber(notebooks_ptr));
+                selected_id = getChoice(0, getAmountOfN(notebooks_ptr));
                 system("cls");
                 if (selected_id != 0) {
                     notebookMenu(notebooks_ptr, notes_ptr, selected_id - 1);
@@ -142,7 +142,7 @@ void mainMenu(FILE* notebooks_ptr, FILE* notes_ptr) {
                 break;
             case 4:
                 system("cls");
-                showTables(notebooks_ptr, notes_ptr);
+                showN(notebooks_ptr, notes_ptr);
                 break;
         }
     }

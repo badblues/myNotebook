@@ -17,7 +17,7 @@ int SHOWALLNOTES(FILE* notes_ptr) {
     return no_error;
 }
 
-int showNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id) {
+int showN(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id) {
     int no_error = 1;
     if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
         no_error = 0;
@@ -39,7 +39,7 @@ int showNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id)
     return no_error;
 }
 
-int showNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
+int showN(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
     int no_error = 1;
     if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
         no_error = 0;
@@ -68,7 +68,7 @@ int showNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
     return no_error;
 }
 
-int showNotebooks(FILE* ptr) {
+int showN(FILE* ptr) {
     int no_error = 1;
     if (ptr == nullptr) {
         no_error = 0;
@@ -84,7 +84,7 @@ int showNotebooks(FILE* ptr) {
     return no_error;
 }
 
-int showTables(FILE* notebooks_ptr, FILE* notes_ptr) {
+int showN(FILE* notebooks_ptr, FILE* notes_ptr) {
     int no_error = 1;
     if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
         no_error = 0;
@@ -105,7 +105,7 @@ int showTables(FILE* notebooks_ptr, FILE* notes_ptr) {
     return no_error;
 }
 
-int addNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, char* target) {
+int addN(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, char* target) {
     int no_error = 1;
     if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
         no_error = 0;
@@ -145,7 +145,7 @@ int addNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, char* target)
     return no_error;
 }
 
-int addNotebook(FILE* ptr, char* name) {
+int addN(FILE* ptr, char* name) {
     int no_error = 1;
     if (ptr == nullptr) {
         no_error = 0;
@@ -165,7 +165,7 @@ int getAmountOfNotes(FILE* notes_ptr) {
     return num;
 }
 
-int getNotesNumber(FILE* notebooks_ptr, int id) {
+int getAmountOfN(FILE* notebooks_ptr, int id) {
     int num = -1;
     notebook book;
     fseek(notebooks_ptr, id * sizeof(notebook), SEEK_SET);
@@ -174,14 +174,14 @@ int getNotesNumber(FILE* notebooks_ptr, int id) {
     return num;
 }
 
-int getNotebooksNumber(FILE* notebook_ptr) {
+int getAmountOfN(FILE* notebook_ptr) {
     int num;
     fseek(notebook_ptr, 0, SEEK_END);
     num = ftell(notebook_ptr) / sizeof(notebook);
     return num;
 }
 
-int deleteNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id) {
+int deleteN(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id) {
     int no_error = 1;
     if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
         no_error = 0;
@@ -213,7 +213,7 @@ int deleteNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_i
     return no_error;
 }
 
-int deleteNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
+int deleteN(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
     int no_error = 1;
     if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
         no_error = 0;
@@ -236,7 +236,7 @@ int deleteNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
             }
             index++;
         }
-        ftruncate(fileno(notebooks_ptr), (getNotebooksNumber(notebooks_ptr) - 1) * sizeof(notebook));
+        ftruncate(fileno(notebooks_ptr), (getAmountOfN(notebooks_ptr) - 1) * sizeof(notebook));
         fseek(notes_ptr, (indent + notes_to_delete) * sizeof(note), SEEK_SET);
         while (!feof(notes_ptr) && (fread(&record, sizeof(note), 1, notes_ptr))) {
             fseek(notes_ptr, -1 * (notes_to_delete + 1) * (long)sizeof(note), SEEK_CUR);
@@ -248,7 +248,7 @@ int deleteNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id) {
     return no_error;
 }
 
-int renameNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id, char* target) {
+int renameN(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_id, char* target) {
     int no_error = 1;
     if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
         no_error = 0;
@@ -272,7 +272,7 @@ int renameNote(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, int note_i
     return no_error;
 }
 
-int renameNotebook(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, char* name) {
+int renameN(FILE* notebooks_ptr, FILE* notes_ptr, int notebook_id, char* name) {
     int no_error = 1;
     if ((notebooks_ptr == nullptr) || (notes_ptr == nullptr)) {
         no_error = 0;

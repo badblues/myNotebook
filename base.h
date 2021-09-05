@@ -10,7 +10,6 @@
 #define notes_path "data/notes"
 #define notebooks_path "data/notebooks"
 
-//TODO change filepath in makefile before release
 
 typedef class note note;
 typedef class notebook notebook;
