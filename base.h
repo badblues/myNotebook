@@ -7,8 +7,8 @@
 #include <unistd.h>
 #include <conio.h>
 
-#define notes_path "data/notes"
-#define notebooks_path "data/notebooks"
+#define notes_path "notes"
+#define notebooks_path "notebooks"
 
 
 typedef class note note;
